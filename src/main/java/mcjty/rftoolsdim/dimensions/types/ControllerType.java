@@ -105,6 +105,9 @@ public enum ControllerType {
     CONTROLLER_FOREST("Forest", 0, new BiomeFilter() {
         @Override
         public boolean match(Biome biome) {
+            if(biome.decorator == null) {
+                throw new RuntimeException("Biome " + biome.biomeName + " (" + Biome.REGISTRY.getNameForObject(biome) + ") had null decorator!");
+            }
             return biome.decorator.treesPerChunk >= 5;
         }
 
