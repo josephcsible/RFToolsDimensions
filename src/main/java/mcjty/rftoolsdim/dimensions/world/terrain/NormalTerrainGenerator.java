@@ -16,6 +16,7 @@ import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.ChunkGeneratorEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import org.apache.commons.lang3.Validate;
 
 import java.util.Random;
 
@@ -317,8 +318,9 @@ public class NormalTerrainGenerator implements BaseTerrainGenerator {
 
         for (int k = 0; k < 16; ++k) {
             for (int l = 0; l < 16; ++l) {
-                Biome biome = biomes[l + k * 16];
-                biome.genTerrainBlocks(world, provider.rand, primer, chunkX * 16 + k, chunkZ * 16 + l, this.depthBuffer[l + k * 16]);
+                int index = l + k * 16;
+                Biome biome = Validate.notNull(biomes[index], "Element %d of biomes was null", index);
+                biome.genTerrainBlocks(world, Validate.notNull(provider, "provider was null").rand, primer, chunkX * 16 + k, chunkZ * 16 + l, Validate.notNull(this.depthBuffer, "this.depthBuffer was null")[index]);
             }
         }
     }
