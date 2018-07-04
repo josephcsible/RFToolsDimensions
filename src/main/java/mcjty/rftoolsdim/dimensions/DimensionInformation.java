@@ -324,6 +324,9 @@ public class DimensionInformation implements IDimensionInformation {
             Class<? extends EntityLiving> c = null;
             try {
                 c = GenericTools.castClass(Class.forName(className), EntityLiving.class);
+                if(c == null) {
+                    throw new RuntimeException("Contract of Class.forName broken! Class name was " + className);
+                }
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -992,6 +995,9 @@ public class DimensionInformation implements IDimensionInformation {
 
             try {
                 Class<? extends EntityLiving> c = GenericTools.castClass(Class.forName(className), EntityLiving.class);
+                if(c == null) {
+                    throw new RuntimeException("Contract of Class.forName broken! Class name was " + className);
+                }
                 MobDescriptor mob = new MobDescriptor(c, chance, minGroup, maxGroup, maxLoaded);
                 extraMobs.add(mob);
             } catch (ClassNotFoundException e) {

@@ -41,6 +41,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -629,7 +630,7 @@ public class GenericChunkGenerator implements IChunkGenerator {
 
         creatures = new ArrayList<>(creatures);
         for (MobDescriptor mob : dimensionInformation.getExtraMobs()) {
-            Class<? extends EntityLiving> entityClass = mob.entityClass;
+            Class<? extends EntityLiving> entityClass = Validate.notNull(mob.entityClass);
             if (creatureTypeClass.isAssignableFrom(entityClass) && worldObj.countEntities(entityClass) < mob.getMaxLoaded()) {
                 creatures.add(mob);
             }
