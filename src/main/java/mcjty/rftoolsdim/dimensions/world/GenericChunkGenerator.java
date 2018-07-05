@@ -302,6 +302,15 @@ public class GenericChunkGenerator implements IChunkGenerator {
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, chunkX * 4 - 2, chunkZ * 4 - 2, 10, 10);
         terrainGenerator.generate(chunkX, chunkZ, chunkprimer);
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomes(this.biomesForGeneration, chunkX * 16, chunkZ * 16, 16, 16);
+        if(this.biomesForGeneration[0] == null) {
+            Biome[] biomesToCheck = this.worldObj.getBiomeProvider().getBiomes(null, chunkX * 16, chunkZ * 16, 16, 16, false);
+            if(biomesToCheck[0] == null) {
+                throw new RuntimeException("null even without cache");
+            } else {
+                Biome biome = biomesToCheck[0];
+                throw new RuntimeException("just the cache is wrong: should have been " + biome.biomeName + " (" + Biome.REGISTRY.getNameForObject(biome) + ")");
+            }
+        }
         terrainGenerator.replaceBlocksForBiome(chunkX, chunkZ, chunkprimer, this.biomesForGeneration);
 
         if (dimensionInformation.hasFeatureType(FeatureType.FEATURE_TENDRILS)) {
